@@ -1,8 +1,15 @@
-import 'package:alarm_app/myclass.dart';
+// import 'dart:async';
+
+import 'package:alarm_app/secound_screen.dart';
 import 'package:alarm_app/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+
+class SSSS {
+  final String name;
+  SSSS(this.name);
+}
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -12,45 +19,44 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  // int _counter = 0;
   final box = GetStorage();
+
+  // ValueNotifier<int> counterNotifer = ValueNotifier<int>(0);
+  // StreamController<int> counterStream = StreamController<int>.broadcast();
+  // int _counterS = 0;
+
+  RxInt getxCounter = 0.obs;
+  RxString name = 'Jonatas Borges'.obs;
+
+  Rx<SSSS> rrr = SSSS("ahmed").obs;
+
+  // int ss = int.parse("1");
 
   @override
   void initState() {
-    var x = MyClass();
-    // var y = MyClass();
+    // _counter = box.read("counter") ?? 0;
+    // setState(() {});
 
-    x.name = "ahmed";
+    // counterNotifer.value = box.read("counter") ?? 0;
+    // _counterS = box.read("counter") ?? 0;
 
-    // print(y.name);
+    int xx = box.read("counter") ?? 0;
 
-    // var xx = MyClass();
+    // rrr.value.name
 
-    // xx.name = "layla";
+    getxCounter = xx.obs;
 
-    // print(xx.name);
-
-    Get.put(x);
-
-    // GetStorage storage = GetStorage();
-
-    _counter = box.read("counter") ?? 0;
-    setState(() {});
+    // print("_counterS");
+    // print(_counterS);
+    // counterStream.sink.add(_counterS);
 
     super.initState();
   }
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-      box.write("counter", _counter);
-
-      // box.remove("counter");
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    print("========= build");
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -83,13 +89,40 @@ class _MyHomePageState extends State<MyHomePage> {
               style: TextStyle(color: Get.isDarkMode ? Colors.white : Colors.black),
             ),
             const SizedBox(height: 50),
+            ElevatedButton(
+              onPressed: () {
+                Get.to(const SecoundScreen());
+              },
+              child: const Text("Go To Secound Screen"),
+            ),
+            const SizedBox(height: 20),
             const Text(
               'You have pushed the button this many times:',
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
+            // ValueListenableBuilder<int>(
+            //     valueListenable: counterNotifer,
+            //     builder: (context, snapshot, child) {
+            //       return Text(
+            //         '$snapshot',
+            //         style: Theme.of(context).textTheme.headlineMedium,
+            //       );
+            //     }),
+            // StreamBuilder<int>(
+            //     // initialData: 0,
+            //     stream: counterStream.stream,
+            //     builder: (context, snapshot) {
+            //       return Text(
+            //         snapshot.hasData ? '${snapshot.data}' : "$_counterS",
+            //         style: Theme.of(context).textTheme.headlineMedium,
+            //       );
+            //     }),
+
+            Obx(
+              () => Text(
+                "$getxCounter",
+                style: Theme.of(context).textTheme.headlineMedium,
+              ),
+            )
           ],
         ),
       ),
@@ -98,5 +131,25 @@ class _MyHomePageState extends State<MyHomePage> {
         child: const Icon(Icons.add),
       ),
     );
+  }
+
+  void _incrementCounter() {
+    // setState(() {
+
+    // var x = counterNotifer.value;
+
+    // var x = counterStream.(onListen: () => _cacheLength.sink.add(0));
+    getxCounter++;
+
+    // _counterS++;
+    // counterStream.sink.add(_counterS);
+
+    // counterNotifer.value = x;
+    // // _counter++;
+    // box.write("counter", x);
+    // box.write("counter", counterNotifer.value);
+
+    // print(_counter);
+    // });
   }
 }
